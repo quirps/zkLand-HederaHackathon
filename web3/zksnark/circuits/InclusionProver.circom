@@ -8,28 +8,28 @@ include "circomlib/circuits/merkle.circom";
 template InclusionProver(ownership_depth, schema_depth, issuer_depth) {
     // === 1. Inputs ===
         // Enables proving owner of credential 
-        signal public input ownership_root;
+        signal input ownership_root;
         // Enables proving inclusion of valid schema 
-        signal public input schema_root;
+        signal input schema_root;
         // Enables proving inclusion of valid issuer
-        signal public input issuer_root;
+        signal input issuer_root;
         
-        signal private input owner_commitment_public;
+        signal input owner_commitment_public;
 
-    // Credential data
-        signal private input parcel_id_hash
-        signal private input area_m2;
-        signal private input right_type;
-        signal private input district_id;
-        signal private input schema_hash;
-        signal private input issuer_id_hash;
+    // Credential private data
+        signal input parcel_id_hash;
+        signal input area_m2;
+        signal input right_type;
+        signal input district_id;
+        signal input schema_hash;
+        signal input issuer_id_hash;
     // Proof inputs
-        signal private input ownership_merkle_path[ownership_depth];
-        signal private input ownership_merkle_index[ownership_depth];
-        signal private input schema_merkle_path[schema_depth];
-        signal private input schema_merkle_index[schema_depth];
-        signal private input issuer_merkle_path[issuer_depth];
-        signal private input issuer_merkle_index[issuer_depth];
+        signal input ownership_merkle_path[ownership_depth];
+        signal input ownership_merkle_index[ownership_depth];
+        signal input schema_merkle_path[schema_depth];
+        signal input schema_merkle_index[schema_depth];
+        signal input issuer_merkle_path[issuer_depth];
+        signal input issuer_merkle_index[issuer_depth];
 
     //2. Derived Data
 
@@ -51,7 +51,7 @@ template InclusionProver(ownership_depth, schema_depth, issuer_depth) {
     ownershipChecker.root <== ownership_root;
     for( var i =0; i < ownership_depth; i++){
         ownershipChecker.path_elements[i] <== ownership_merkle_path[i];
-        ownershipChecker.path_indicies[i] <== ownership_merkle_index[i];
+        ownershipChecker.path_indices[i] <== ownership_merkle_index[i];
     }
     // Assert schema checker leaf belongs to schema merkle tree
     component schemaChecker = MerkleTreeChecker(schema_depth);
@@ -73,6 +73,3 @@ template InclusionProver(ownership_depth, schema_depth, issuer_depth) {
     
         }
 
-component InclusionProver{
-
-} = InclusionProver();

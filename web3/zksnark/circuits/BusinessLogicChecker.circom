@@ -3,15 +3,15 @@ include "circomlib/circuits/comparators.circom";
 // Constraints for businesses/authorities to check various data field of user's property
 template BusinessLogicChecker() {
     //Agency request constraints
-    signal public input area_threshold;
-    signal public input district_expected;
-    signal public input reveal_flag;
+    signal input area_threshold;
+    signal input district_expected;
+    signal input reveal_flag;
     //Private information being checked
-    signal private input area_m2;
-    signal private input district_id;
-    signal private input right_type;
+    signal input area_m2;
+    signal input district_id;
+    signal input right_type;
     
-    signal public output disclosed_right_type;
+    signal output disclosed_right_type;
     
     // Is user's land >= agency threshold requirement
     // areaCheck.out === 1 means this constraint is satisfied
