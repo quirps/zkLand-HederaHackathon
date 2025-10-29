@@ -1,10 +1,10 @@
 pragma circom 2.0.0;
 
 // === IMPORT CIRCOMLIB ===
-include "circomlib/circuits/poseidon.circom";
+include "../../../node_modules/circomlib/circuits/poseidon.circom";
 // Use SMT Verifier instead of MerkleTreeChecker
-include "circomlib/circuits/smt/smtverifier.circom";
-include "circomlib/circuits/comparators.circom";
+include "../../../node_modules/circomlib/circuits/smt/smtverifier.circom";
+include "../../../node_modules/circomlib/circuits/comparators.circom";
 
 // === TEMPLATE 1: InclusionProver ===
 // Uses SmtVerifier for Merkle inclusion proofs
@@ -51,7 +51,7 @@ template InclusionProver(ownership_depth, schema_depth, issuer_depth) {
     ownershipChecker.value <== 1;           // Assuming value=1 means "key exists"
     ownershipChecker.oldKey <== 0;          // Not an update proof
     ownershipChecker.oldValue <== 0;        // Assume the leaf was previously empty
-    ownershipChecker.isOld0 <== 1;          // isOld0=1 means previous value was 0
+    ownershipChecker.isOld0 <== 0;          // isOld0=1 means previous value was 0
     for (var i = 0; i < ownership_depth; i++) {
         ownershipChecker.siblings[i] <== ownership_siblings[i]; // Wire siblings
     }
@@ -65,7 +65,7 @@ template InclusionProver(ownership_depth, schema_depth, issuer_depth) {
     schemaChecker.value <== 1;              // Assuming value=1 means "key exists"
     schemaChecker.oldKey <== 0;
     schemaChecker.oldValue <== 0;
-    schemaChecker.isOld0 <== 1;
+    schemaChecker.isOld0 <== 0;
     for (var i = 0; i < schema_depth; i++) {
         schemaChecker.siblings[i] <== schema_siblings[i];
     }
@@ -79,7 +79,7 @@ template InclusionProver(ownership_depth, schema_depth, issuer_depth) {
     issuerChecker.value <== 1;              // Assuming value=1 means "key exists"
     issuerChecker.oldKey <== 0;
     issuerChecker.oldValue <== 0;
-    issuerChecker.isOld0 <== 1;
+    issuerChecker.isOld0 <== 0;
     for (var i = 0; i < issuer_depth; i++) {
         issuerChecker.siblings[i] <== issuer_siblings[i];
     }
@@ -196,4 +196,4 @@ component main {
         district_expected, reveal_flag
         // disclosed_right_type is an OUTPUT, automatically public
     ]
-} = MonoCircuit(16, 8, 8);
+} = MonoCircuit(16, 16, 16);
